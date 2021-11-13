@@ -32,7 +32,7 @@ async function encrypt(
   return appendBuffer(iv, ctBuffer as Uint8Array);
 }
 
-async function decrypt(ciphertext: Uint8Array, password: string) {
+async function decrypt(ciphertext: Uint8Array, password: string) : Promise<Uint8Array> {
   if (!crypto.subtle.importKey || !crypto.subtle.decrypt) {
     throw new Error("Unexpected error");
   }
@@ -50,7 +50,7 @@ async function decrypt(ciphertext: Uint8Array, password: string) {
 
   const ct = ciphertext.slice(16);
   const buffer = await crypto.subtle.decrypt(alg, key, ct); 
-  return buffer as Uint8Array;  
+  return new Uint8Array(buffer as Uint8Array);  
 }
 
 export { decrypt, encrypt };
