@@ -1,10 +1,29 @@
 import { readAll, writeAll } from "../deps.ts";
 
 async function deleteFile(fn: string) {
-    await Deno.remove(fn);
+    console.log("Cleaning up")
+    await Deno.remove(fn,{ recursive: true });
     return undefined;
 }
 
+async function getFilePaths(currentPath: string) : Promise<string[]> {
+    const names: string[] = [];
+
+    for await (const dirEntry of Deno.readDir(currentPath)) {
+        const entryPath = `${currentPath}/${dirEntry.name}`;
+        names.push(entryPath);
+
+        if (dirEntry.isDirectory) {
+        const newNames = await getFilePaths(entryPath);
+        for await (const name of newNames) {
+            console.log(name);
+            names.push(name);
+        }
+        }
+    }
+
+    return names;
+}
 async function writeFile(fn: string, content: Uint8Array) {
     const fileOut = await Deno.open(fn, {
         write: true,
@@ -21,4 +40,4 @@ async function readFile(fn: string) : Promise<Uint8Array> {
     return content;
 }
 
-export { deleteFile, writeFile, readFile };
+export {  writeFile, readFile, deleteFile, getFilePaths };

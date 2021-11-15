@@ -3,6 +3,7 @@ import { checkArguments } from "./src/checks.ts";
 import { decrypt, encrypt } from "./src/encryption.ts";
 import { deleteFile, writeFile, readFile } from "./src/files.ts";
 import { fatal, success } from "./src/result.ts";
+import { archive, unarchive } from "./src/archive.ts";
 
 // Check arguments and get filename
 const fileName = checkArguments();
@@ -28,10 +29,7 @@ if (fileExists && fileExistsLocked) {
 }
 
 // Should we encrypt or decrypt?
-const enc = (fileExists && !fileExistsLocked),
-    method = enc ? encrypt : decrypt,
-    file = enc ? fileName : fileNameLocked,
-    fileAlt = enc ? fileNameLocked : fileName;
+const enc = (fileExists && !fileExistsLocked);
 
 // Get key
 const key = prompt('Enter password: ');
@@ -47,8 +45,21 @@ if (enc) {
 // Require a key
 if (key !== null) {
   try { 
-    await writeFile(fileAlt, await method(await readFile(file), key));
-    await deleteFile(file);
+
+    if (enc) {
+      const 
+        reader = await archive(fileName),
+        contentEncrypted = await encrypt(reader, key);
+      await writeFile(fileNameLocked, contentEncrypted);
+      await deleteFile(fileName);
+    } else {
+      const 
+        content = await readFile(fileNameLocked),
+        contentDecrypted = await decrypt(content, key),
+        reader = new Deno.Buffer(contentDecrypted.buffer as ArrayBuffer);
+      await unarchive(reader); 
+      await deleteFile(fileNameLocked);
+    }
   } catch (e) { 
     fatal(e.toString()); 
   }

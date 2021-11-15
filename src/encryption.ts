@@ -1,4 +1,4 @@
-import { crypto } from "../deps.ts";
+import { crypto, readAll } from "../deps.ts";
 function appendBuffer(buffer1: Uint8Array, buffer2: Uint8Array): Uint8Array {
   const tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
   tmp.set(new Uint8Array(buffer1), 0);
@@ -8,7 +8,7 @@ function appendBuffer(buffer1: Uint8Array, buffer2: Uint8Array): Uint8Array {
 
 
 async function encrypt(
-  plaintext: Uint8Array,
+  plaintextReader: Deno.Reader,
   password: string,
 ): Promise<Uint8Array> {
   if (!crypto.subtle.importKey || !crypto.subtle.encrypt) {
@@ -27,8 +27,9 @@ async function encrypt(
     false,
     ["encrypt"],
   );
-  const ctBuffer: unknown = await crypto.subtle.encrypt(alg, key, plaintext);
-
+  
+  const output = await readAll(plaintextReader);
+  const ctBuffer: unknown = await crypto.subtle.encrypt(alg, key, output);
   return appendBuffer(iv, ctBuffer as Uint8Array);
 }
 
@@ -36,10 +37,10 @@ async function decrypt(ciphertext: Uint8Array, password: string) : Promise<Uint8
   if (!crypto.subtle.importKey || !crypto.subtle.decrypt) {
     throw new Error("Unexpected error");
   }
-
+  console.log("Deriving key from passphrase");
   const pwUtf8 = new TextEncoder().encode(password);
   const pwHash = await crypto.subtle.digest("SHA-256", pwUtf8);
-
+  console.log("Extracting IV");
   const iv: Uint8Array = ciphertext.slice(0, 16);
 
   const alg = { name: "AES-CBC", iv: iv };
@@ -49,7 +50,8 @@ async function decrypt(ciphertext: Uint8Array, password: string) : Promise<Uint8
   ]);
 
   const ct = ciphertext.slice(16);
-  const buffer = await crypto.subtle.decrypt(alg, key, ct); 
+  console.log("Decrypting archive");
+  const buffer = await crypto.subtle.decrypt(alg, key, ct);
   return new Uint8Array(buffer as Uint8Array);  
 }
 
