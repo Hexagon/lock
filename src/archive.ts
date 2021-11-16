@@ -1,4 +1,5 @@
-import { Tar, Untar, ensureDir, ensureFile } from "../deps.ts";
+import { Tar, Untar, ensureDir, ensureFile, exists } from "../deps.ts";
+import { fatal } from "./result.ts";
 import { getFilePaths } from "./files.ts";
 
 async function archive(fileName : string) {
@@ -25,10 +26,18 @@ async function unarchive(reader : Deno.Reader) {
         if (entry.type === "directory") {
             await ensureDir(entry.fileName);
         } else {
-            await ensureFile(entry.fileName);
-            const file = await Deno.open(entry.fileName, { write: true });
-            await Deno.copy(entry, file);
-            file.close();
+            if(!await exists(entry.fileName)) {
+                try {
+                    await ensureFile(entry.fileName);
+                    const file = await Deno.open(entry.fileName, { write: true });
+                    await Deno.copy(entry, file);
+                    file.close();
+                } catch (_e) {
+                    fatal("Unexpected error while writing '" +  entry.fileName + "', aborting decryption and leaving files as is.");
+                }
+            } else {
+                fatal("Output file '" +  entry.fileName + "' already exists, aborting decryption and leaving files as is.");
+            }
         }
     }
 };

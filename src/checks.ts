@@ -8,12 +8,16 @@ function printHeader() {
 }
 
 function printUsage() {
-  console.log("Usage: lock.exe [OPTIONS]... [FILE]");
+  console.log("Usage: lock [OPTIONS...] [FILE]");
 }
 
 function printFlags() {
-  console.log("\t-h\t--help\t\tDisplay this help and exit");
-  console.log("\t-h\t--help\t\tOutput version information and exit");
+  console.log("\t-u\t--unlock\t\tDecrypt [FILE]");
+  console.log("\t-o\t--out [filename]\tSpecify output file/directory name");
+  console.log("");
+  console.log("\t-h\t--help\t\t\tDisplay this help and exit");
+  console.log("\t-h\t--help\t\t\tOutput version information and exit");
+  console.log("");
 }
 
 function checkArguments() {
@@ -39,14 +43,14 @@ function checkArguments() {
   }
 
   if (args._ && args._.length > 1) {
-    fatal("Specify exactly one file");
+    fatal("Specify exactly one file or directory");
   }
 
   if (args._ && args._.length === 0) {
-    fatal("You need to specify a file to encrypt");
+    fatal("You need to specify a file or directory");
   }
 
-  return args._[0].toString();
+  return args;
 }
 
 export { checkArguments, printFlags, printHeader, printUsage };
