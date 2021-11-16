@@ -29,7 +29,7 @@ Pre compiled binaries are not included as the installation consist of two simple
 
 ### Step 1 - Install Deno runtime
 
-First, make sure Deno is installed. Use one of the one-liners at [https://deno.land/#installation](deno.land/#installation).
+First, make sure Deno is installed. Use one of the one-liners at [deno.land/#installation](https://deno.land/#installation).
 
 *Note that deno install require administrator shell to properly install on windows.*
 
