@@ -12,7 +12,7 @@ Will prompt for key, encrypt the content and rename the file or directory to ```
 
 **Decryption**
 
-```lock file.txt```
+```lock --unlock file.txt.lock```
 
 Will prompt for key, decrypt the content, and rename the file or directory back to ```file.txt```
 
