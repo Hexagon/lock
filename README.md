@@ -38,3 +38,9 @@ First, make sure Deno is installed. Use one of the one-liners at [https://deno.l
 ```deno install --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock/lock.ts```
 
 This will automatically pull the latest version from this repository.
+
+## Upgrading
+
+Passing ```-f``` to the installation command will upgrade lock to the latest version.
+
+```deno install -f --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock/lock.ts```
