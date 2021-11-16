@@ -41,6 +41,6 @@ This will automatically pull the latest version from this repository.
 
 ## Upgrading
 
-Passing ```-f``` to the installation command will upgrade lock to the latest version.
+Passing ```-f -r ``` to the installation command will clear cache and upgrade lock to the latest version.
 
-```deno install -f --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock/lock.ts```
+```deno install -f -r --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock/lock.ts```
