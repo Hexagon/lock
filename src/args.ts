@@ -1,17 +1,18 @@
-import { parse } from "../deps.ts";
+import { Args, parse } from "../deps.ts";
 
-function parseArguments() {
-  return parse(Deno.args, {
+function parseArguments(args: string[]): Args {
+  return parse(args, {
     alias: {
       "version": "v",
       "help": "h",
-      "unlock": "u"
+      "unlock": "u",
+      "quiet": "q",
     },
-    boolean: ["v", "h", "u"],
+    boolean: ["v", "h", "u", "q"],
     stopEarly: true,
-    unknown: (_arg : string, key? : string, value?: unknown) => {
-        return key === undefined && value === undefined;
-    }
+    unknown: (_arg: string, key?: string, value?: unknown) => {
+      return key === undefined && value === undefined;
+    },
   });
 }
 

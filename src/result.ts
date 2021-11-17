@@ -1,11 +1,14 @@
 function fatal(e: string) {
-    console.log("Fatal error: " + e );
-    Deno.exit(1);
+  throw new Error("Fatal error: " + e);
 }
 
 function success(e: string) {
-    console.log("Success: " + e);
-    Deno.exit(0);
+  console.log("Success: " + e);
+  Deno.exit(0);
 }
 
-export { fatal, success };
+function output(s: string, quiet?: boolean) {
+  if (!quiet) console.log(s);
+}
+
+export { fatal, output, success };
