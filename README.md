@@ -3,7 +3,7 @@
   CLI tool to encrypt or decrypt folders. Easy to use, easy to install.<br><br>
 </p>
 
-![Deno CI](https://github.com/Hexagon/lock/workflows/Build/badge.svg?branch=master) 
+![Deno CI](https://github.com/Hexagon/lock/workflows/CI%20Build/badge.svg?branch=master) 
 ![GitHub Issues](https://img.shields.io/github/issues/Hexagon/lock)
 ![GitHub Release](https://img.shields.io/github/v/release/hexagon/lock?display_name=tag&include_prereleases)
 ![Deno](https://img.shields.io/badge/Deno-%3E%3D1.16-blue)
