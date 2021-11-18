@@ -1,5 +1,5 @@
 import { deleteFile, readFile, writeFile } from "../src/files.ts";
-import { exists, ensureDir } from "../deps.ts";
+import { ensureDir, exists } from "../deps.ts";
 import { lock } from "../mod.ts";
 
 import {
@@ -9,8 +9,7 @@ import {
 
 import { assertEqual } from "./helpers/assert.ts";
 
-const 
-  testDir = "./testdir",
+const testDir = "./testdir",
   testDirLocked = "./testdir.lock",
   testFile = "./testdir/test.txt",
   testText = "Hello Lock!",
@@ -42,7 +41,7 @@ Deno.test("lock --unlock throws with wrong password, and leaves files untouched 
   try {
     await lock(testFileLocked, true, true, "wrongpassword");
     assertEqual(true, false);
-  } catch (e : unknown) {
+  } catch (e: unknown) {
     const eError = e as Error;
     if (eError && eError.toString) {
       eError.toString().includes("BlockModeError");
@@ -60,7 +59,6 @@ Deno.test("lock --unlock works (file mode)", async () => {
   assertEqual(utf8decode(fileContent), testText);
   assertEqual(await exists(testFileLocked), false);
 });
-
 
 Deno.test("lock works, readFile works (dir mode)", async () => {
   await lock(testDir, false, true, testPassword);
