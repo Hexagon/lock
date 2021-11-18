@@ -1,8 +1,7 @@
 *.exe
 *.lock
-lab.*
 
-hemligmapp
-hemligmapp*
+test.txt
+test.txt.lock
 
 cov_profile
