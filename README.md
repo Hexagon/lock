@@ -1,9 +1,17 @@
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/hexagon/lock@master/lock.png" alt="Lock" width="150" height="150"><br>
+  CLI tool to encrypt or decrypt folders. Easy to use, easy to install.<br>
+  ´´´lock secrets``` ```lock --unlock secrets.lock```
+</p>
+
+![Node.js CI](https://github.com/Hexagon/lock/workflows/Deno%20CI/badge.svg?branch=master) 
+![GitHub Issues](https://img.shields.io/github/issues/Hexagon/lock)
+![GitHub Release](https://img.shields.io/github/v/release/:user/:repo?display_name=tag&include_prereleases)
+![Deno](https://img.shields.io/badge/Deno-%3E%3D1.16-green)
+![Platform support](https://img.shields.io/badge/platform-win%7Clinux%7CmacOS-blue)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Hexagon/lock/blob/master/LICENSE.md)
+
 # lock
-
-Easy to install, easy to use, cross platform cli application to encrypt/decrypt
-files or folders.
-
-Using AES-CBC encryption. Using Deno runtime.
 
 **Encryption**
 
