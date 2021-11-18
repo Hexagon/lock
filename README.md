@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/hexagon/lock@master/lock.png" alt="Lock" width="150" height="150"><br>
-  CLI tool to encrypt or decrypt folders. Easy to use, easy to install.<br><br>
+  <img src="https://cdn.jsdelivr.net/gh/hexagon/lock@master/lock.png" alt="Lock" width="200" height="200"><br>
+  CLI tool to encrypt/decrypt files and folders. Easy to use, easy to install.<br><br>
 </p>
 
 ![Deno CI](https://github.com/Hexagon/lock/workflows/CI%20Build/badge.svg?branch=master)
