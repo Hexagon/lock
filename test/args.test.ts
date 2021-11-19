@@ -1,5 +1,5 @@
 import { parseArguments } from "../src/args.ts";
-import { assertTruthy, assertEqual } from "./helpers/assert.ts";
+import { assertEqual, assertTruthy } from "./helpers/assert.ts";
 
 Deno.test("-h should set args.help", () => {
   const input = ["-h"];
@@ -56,7 +56,6 @@ Deno.test("-y and --yes should set args.yes", () => {
   assertTruthy(args2.yes);
 });
 
-
 Deno.test("-n and --no should set args.no", () => {
   const input1 = ["-n"];
   const input2 = ["--no"];
@@ -67,7 +66,6 @@ Deno.test("-n and --no should set args.no", () => {
   assertTruthy(args1.no);
   assertTruthy(args2.no);
 });
-
 
 Deno.test("-k and --key should set args.key", () => {
   const input1 = ["-k", "hello"];
