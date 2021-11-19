@@ -14,6 +14,12 @@ function printUsage() {
 function printFlags() {
   console.log(" -u\t--unlock\tDecrypt [FILE]");
   console.log(" -q\t--quiet\t\tSuppress all output");
+  console.log(" -y\t--yes\t\tAnswer yes to all questions without asking");
+  console.log(" -n\t--no\t\tAnswer no to all questions without asking");
+  console.log("");
+  console.log(
+    " -k\t--keep\t\\tSupply key as a parameter instead of prompt (NOT recommended)",
+  );
   console.log("");
   console.log(" -h\t--help\t\tDisplay this help and exit");
   console.log(" -v\t--version\tOutput version information and exit");

@@ -32,14 +32,14 @@ Deno.test("writeFile", async () => {
 });
 
 Deno.test("lock works, readFile works (file mode)", async () => {
-  await lock(testFile, false, true, testPassword);
+  await lock(testFile, false, true, true, false, testPassword);
   assertEqual(await exists(testFileLocked), true);
   assertEqual(await exists(testFile), false);
 });
 
 Deno.test("lock --unlock throws with wrong password, and leaves files untouched (file mode)", async () => {
   try {
-    await lock(testFileLocked, true, true, "wrongpassword");
+    await lock(testFileLocked, true, true, true, false, "wrongpassword");
     assertEqual(true, false);
   } catch (e: unknown) {
     const eError = e as Error;
@@ -54,20 +54,20 @@ Deno.test("lock --unlock throws with wrong password, and leaves files untouched 
 });
 
 Deno.test("lock --unlock works (file mode)", async () => {
-  await lock(testFileLocked, true, true, testPassword);
+  await lock(testFileLocked, true, true, true, false, testPassword);
   const fileContent = await readFile(testFile);
   assertEqual(utf8decode(fileContent), testText);
   assertEqual(await exists(testFileLocked), false);
 });
 
 Deno.test("lock works, readFile works (dir mode)", async () => {
-  await lock(testDir, false, true, testPassword);
+  await lock(testDir, false, true, true, false, testPassword);
   assertEqual(await exists(testDirLocked), true);
   assertEqual(await exists(testDir), false);
 });
 
 Deno.test("lock --unlock works (dir mode)", async () => {
-  await lock(testDirLocked, true, true, testPassword);
+  await lock(testDirLocked, true, true, true, false, testPassword);
   const fileContent = await readFile(testFile);
   assertEqual(utf8decode(fileContent), testText);
   assertEqual(await exists(testDirLocked), false);

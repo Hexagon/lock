@@ -1,8 +1,7 @@
 import { readAll, writeAll } from "../deps.ts";
 import { output } from "./result.ts";
 
-async function deleteFile(fn: string, quiet?: boolean) {
-  output("Cleaning up", quiet);
+async function deleteFile(fn: string) {
   await Deno.remove(fn, { recursive: true });
   return undefined;
 }

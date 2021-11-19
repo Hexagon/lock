@@ -1,4 +1,4 @@
-import { Buffer, exists, Secret } from "./deps.ts";
+import { Buffer, exists } from "./deps.ts";
 import { decrypt, encrypt } from "./src/encryption.ts";
 import { deleteFile, readFile, writeFile } from "./src/files.ts";
 import { fatal, output } from "./src/result.ts";
@@ -8,7 +8,9 @@ async function lock(
   fileName: string,
   unlock: boolean,
   quiet: boolean,
-  key?: string,
+  yes: boolean,
+  no: boolean,
+  key: string,
 ) {
   // Check for target file
   const fileExists = await exists(fileName);
@@ -19,19 +21,6 @@ async function lock(
     fatal(
       "Target file or directory '" + fileName + "' does not exist.",
     );
-  }
-
-  // Get key
-  if (!key) {
-    key = await Secret.prompt("Enter password: ");
-
-    // Require confirmation if we're encrypting
-    if (!unlock) {
-      const keyConfirm = await Secret.prompt("Confirm password: ");
-      if (key != keyConfirm) {
-        fatal("Keys did not match");
-      }
-    }
   }
 
   // Require a key
@@ -56,20 +45,45 @@ async function lock(
         } else {
           fatal("Unexpected error");
         }
-        await deleteFile(fileName, quiet);
 
-        output("Encryption complete.", quiet);
+        let cnfDelete = false;
+        if (!yes && !no) {
+          cnfDelete = confirm(
+            "Encryption complete, do you want to delete source files (unencrypted)?",
+          );
+        }
+        if (cnfDelete || yes) {
+          output("Deleting source files", quiet);
+          await deleteFile(fileName);
+        } else {
+          output("Leaving source files", quiet);
+        }
+
+        output("Done");
       } else {
         const content = await readFile(fileName),
           contentDecrypted = await decrypt(content, key, quiet);
         if (contentDecrypted) {
           const reader = new Buffer(contentDecrypted.buffer as ArrayBuffer);
           await unarchive(reader, quiet);
-          await deleteFile(fileName, quiet);
+
+          output("Decryption complete", quiet);
+          // Ask for confirmation before deleting
+          let cnfDelete = false;
+          if (!yes && !no) {
+            cnfDelete = confirm("Do you want to delete locked file?");
+          }
+          if (cnfDelete || yes) {
+            output("Deleting locked file", quiet);
+            await deleteFile(fileName);
+          } else {
+            output("Leaving locked file", quiet);
+          }
         } else {
           fatal("Unexpected error");
         }
-        output("Decryption complete.", quiet);
+
+        output("Done.");
       }
     } catch (e) {
       fatal(e.toString());
