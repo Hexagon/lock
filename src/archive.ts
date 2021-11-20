@@ -10,7 +10,7 @@ async function archive(fileName: string, quiet?: boolean) {
   let currentPath;
   for await (currentPath of await getFilePaths(fileName)) {
     // Or specifying a filePath
-    console.log(" - " + currentPath);
+    output(" - " + currentPath, quiet);
     await tar.append(currentPath, {
       filePath: currentPath,
     });

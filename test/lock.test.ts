@@ -31,6 +31,17 @@ Deno.test("writeFile", async () => {
   assertEqual(await exists(testFile), true);
 });
 
+Deno.test("non existing input file throws", async () => {
+  let caught = false;
+  try {
+    await lock("__nonexisting.txt", false, true, true, false, testPassword);
+    throw new Error("Nope");
+  } catch (_e) {
+    caught = true;
+  }
+  assertEqual(caught, true);
+});
+
 Deno.test("lock works, readFile works (file mode)", async () => {
   await lock(testFile, false, true, true, false, testPassword);
   assertEqual(await exists(testFileLocked), true);

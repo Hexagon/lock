@@ -1,5 +1,4 @@
 import { readAll, writeAll } from "../deps.ts";
-import { output } from "./result.ts";
 
 async function deleteFile(fn: string) {
   await Deno.remove(fn, { recursive: true });
@@ -8,7 +7,6 @@ async function deleteFile(fn: string) {
 
 async function getFilePaths(
   currentPath: string,
-  quiet?: boolean,
 ): Promise<string[]> {
   const names: string[] = [];
 
@@ -29,9 +27,8 @@ async function getFilePaths(
     const entryPath = `${currentPath}/${dirEntry.name}`;
     names.push(entryPath);
     if (dirEntry.isDirectory) {
-      const newNames = await getFilePaths(entryPath, quiet);
+      const newNames = await getFilePaths(entryPath);
       for await (const name of newNames) {
-        output(name, quiet);
         names.push(name);
       }
     }
