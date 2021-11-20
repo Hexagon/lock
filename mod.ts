@@ -59,7 +59,7 @@ async function lock(
           output("Leaving source files", quiet);
         }
 
-        output("Done");
+        output("Done", quiet);
       } else {
         const content = await readFile(fileName),
           contentDecrypted = await decrypt(content, key, quiet);
@@ -83,7 +83,7 @@ async function lock(
           fatal("Unexpected error");
         }
 
-        output("Done.");
+        output("Done", quiet);
       }
     } catch (e) {
       fatal(e.toString());

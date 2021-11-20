@@ -1,6 +1,7 @@
 <p align="center">
   <img src="https://cdn.jsdelivr.net/gh/hexagon/lock@master/lock.png" alt="Lock" width="200" height="200"><br>
-  CLI tool to encrypt/decrypt files and folders. Easy to use, easy to install.<br><br>
+  CLI tool to encrypt/decrypt files and folders. Easy to use, easy to install.<br>
+  Also usable as a Deno module for encrypting/decrypting files or folders.<br>
 </p>
 
 ![Deno CI](https://github.com/Hexagon/lock/workflows/CI%20Build/badge.svg?branch=master)
@@ -50,7 +51,7 @@ windows._
 
 ### Step 2 - Install Lock
 
-`deno install --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.5/lock.ts`
+`deno install --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.6/lock.ts`
 
 This will automatically pull the latest version from this repository.
 
@@ -59,11 +60,13 @@ This will automatically pull the latest version from this repository.
 Passing `-f -r` to the installation command will clear cache and upgrade lock to
 the latest version.
 
-`deno install -f -r --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.5/lock.ts`
+`deno install -f -r --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.6/lock.ts`
 
 ## Development
 
-### Development run
+### Contribution guide
+
+Development run
 
 `deno run --unstable --allow-write --allow-read lock.ts`
 
@@ -84,3 +87,44 @@ the latest version.
 **Read coverage report**
 
 `deno coverage --exclude=test cov_profile`
+
+### Using as a module
+
+In addition to being a cli tool, lock is also usable as a module, through mod.ts
+
+TypeScript example
+
+```typescript
+import { lock } from "https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.6/mod.ts";
+
+async function example() {
+  const fileName = "output.png",
+    unlock = false, // false = encrypt, true = decrypt
+    quiet = true, // no console output, setting this to false will output progress, line by line
+    deleteInputFile = true, // delete input file without confirmation
+    keepInputFile = false, // keep input file without confirmation
+    // setting both these to false will trigger a prompt asking how to do
+    plainKey = "SuperSecretPassword!";
+
+  // This will
+  //  * encrypt fileName or the entire folder tree, in case fileName is a directory
+  //  * output fileName + .lock (test.txt.lock) in this case
+  //  * delete fileName (recursively if a directory)
+  await lock(fileName, unlock, quiet, deleteInputFile, keepInputFile, plainKey);
+
+  // This will
+  //  * decrypt fileName + ".lock" (test.txt.lock in this case)
+  //  * output all files that were encrypted previously (recursively if a directory)
+  //  * delete fileName + ".lock"
+  await lock(
+    fileName + ".lock",
+    !unlock,
+    quiet,
+    deleteInputFile,
+    keepInputFile,
+    plainKey,
+  );
+}
+
+await example();
+```
