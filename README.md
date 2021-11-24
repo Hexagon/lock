@@ -9,7 +9,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/hexagon/lock?display_name=tag&include_prereleases)
 ![Deno](https://img.shields.io/badge/Deno-%3E%3D1.16-blue)
 ![Platform support](https://img.shields.io/badge/platform-win%7Clinux%7CmacOS-blue)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Hexagon/lock/blob/master/LICENSE.md)
+[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/hexagon/lock/badge?style=rounded)](https://www.jsdelivr.com/package/gh/hexagon/lock)
 
 # lock
 
