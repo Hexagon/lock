@@ -51,7 +51,7 @@ windows._
 
 ### Step 2 - Install Lock
 
-`deno install --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.8/lock.ts`
+`deno install --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.9/lock.ts`
 
 This will automatically pull the latest version from this repository.
 
@@ -60,7 +60,7 @@ This will automatically pull the latest version from this repository.
 Passing `-f -r` to the installation command will clear cache and upgrade lock to
 the latest version.
 
-`deno install -f -r --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.8/lock.ts`
+`deno install -f -r --allow-read --allow-write --unstable https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.9/lock.ts`
 
 ## Development
 
@@ -95,7 +95,7 @@ In addition to being a cli tool, lock is also usable as a module, through mod.ts
 TypeScript example
 
 ```typescript
-import { lock } from "https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.8/mod.ts";
+import { lock } from "https://cdn.jsdelivr.net/gh/hexagon/lock@0.9.9/mod.ts";
 
 async function example() {
   const fileName = "output.png",
